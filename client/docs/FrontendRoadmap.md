@@ -148,6 +148,7 @@ These features are planned for future development after the core project is comp
 - Spring Security
 - PostgreSQL connector
 - JWT authentication library
+- Lombok for reducing boilerplate
 
 ## Milestones and Timeline
 
