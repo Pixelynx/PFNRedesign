@@ -1,4 +1,4 @@
-# PFN Redesi E-commerce Platform
+# PFN Redesign E-commerce Platform
 
 A redesign for the PFN Redesign E-commerce site.
 
