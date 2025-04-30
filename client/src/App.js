@@ -1,23 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import SideNav from './layouts/SideNav';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SideNav />
+      <main style={{ padding: '20px', transition: '0.5s', marginLeft: '20px' }}>
+        <h1 style={{ color: '#FF69B4' }}>PFN</h1>
+      </main>
     </div>
   );
 }
