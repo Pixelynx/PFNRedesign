@@ -18,9 +18,9 @@ This document outlines the development plan for rebuilding the PFN press on nail
 - [x] Design wireframes for key user flows
 - [x] Create component hierarchy
 - [ ] Initialize React project structure
-- [ ] Set up Spring Boot application
+- [x] Set up Spring Boot application
 - [ ] Configure PostgreSQL database connection
-- [ ] Set up Git repository with branching strategy
+- [x] Set up Git repository with branching strategy
 - [ ] Initialize CI/CD pipeline
 - [ ] Deploy minimal application to hosting environment
 
