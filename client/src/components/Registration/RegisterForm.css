@@ -1,0 +1,73 @@
+.register-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+.register-form-card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 550px;
+}
+
+.register-form-title {
+  color: #FF69B4;
+  text-align: center;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.register-form-subtitle {
+  color: #FF69B4;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.register-form {
+  margin-bottom: 24px;
+}
+
+.name-fields {
+  display: flex;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .name-fields {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.password-requirements {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #FF69B4;
+  opacity: 0.7;
+}
+
+.register-form-footer {
+  margin-top: 30px;
+  text-align: center;
+  color: #FF69B4;
+}
+
+.login-link {
+  color: #FF69B4;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.login-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+} 
