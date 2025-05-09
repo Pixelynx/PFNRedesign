@@ -37,29 +37,11 @@ const LoginForm: React.FC = () => {
     if (validateForm()) {
       try {
         await login(email, password);
-        navigate('/dashboard'); // Redirect to dashboard after successful login
+        navigate('/dashboard');
       } catch (error) {
         // Error is handled in the auth context
       }
     }
-  };
-
-  // bypass function that creates a fake user session
-  const handleBypassLogin = () => {
-    // Create a mock user
-    const mockUser = {
-      id: 999,
-      firstName: 'Dev',
-      lastName: 'User',
-      email: 'dev@test.com',
-      createdAt: new Date().toISOString()
-    };
-    
-    // Store mock data in localStorage to bypass auth
-    localStorage.setItem('token', 'dev-test-token');
-    localStorage.setItem('user', JSON.stringify(mockUser));
-    
-    navigate('/dashboard');
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,19 +54,6 @@ const LoginForm: React.FC = () => {
 
   const handleRememberMeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRememberMe(e.target.checked);
-  };
-
-  // Bypass button styles
-  const devButtonStyle: React.CSSProperties = {
-    marginTop: '10px',
-    backgroundColor: '#FF69B4',
-    color: 'white',
-    border: 'none',
-    padding: '8px 15px',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '14px',
-    width: '100%'
   };
 
   return (
@@ -142,17 +111,6 @@ const LoginForm: React.FC = () => {
             {loading ? 'Signing in...' : 'Sign In'}
           </Button>
         </form>
-
-        {/* Development bypass button - outside the form to avoid form submission */}
-        <div style={{ marginTop: '15px' }}>
-          <button 
-            type="button" 
-            onClick={handleBypassLogin}
-            style={devButtonStyle}
-          >
-            DEV: Skip Login (Testing Only)
-          </button>
-        </div>
         
         <div className="login-form-footer">
           <p>
