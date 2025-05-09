@@ -25,10 +25,29 @@ export const useAuth = (): AuthContextType => {
   return context;
 };
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+
+// Create axios instance with default config
+const api = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElement => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    // Clear any existing tokens and headers on initialization
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    delete api.defaults.headers.common['Authorization'];
+    
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -37,7 +56,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElemen
     if (token && userJson) {
       const user = JSON.parse(userJson) as User;
       setCurrentUser(user);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
     
     setLoading(false);
@@ -48,7 +67,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElemen
       setLoading(true);
       setError('');
       
-      const response = await axios.post<UserResponse>('/api/auth/register', {
+      const response = await api.post<UserResponse>('/api/auth/register', {
         email,
         password,
         firstName,
@@ -77,7 +96,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElemen
       setLoading(true);
       setError('');
       
-      const response = await axios.post<AuthResponse>('/api/auth/login', {
+      const response = await api.post<AuthResponse>('/api/auth/login', {
         email,
         password
       });
@@ -91,7 +110,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElemen
       setCurrentUser(user);
       
       // Set default auth header for future requests
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
       return user;
     } catch (err: any) {
@@ -110,7 +129,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElemen
   const logout = (): void => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    delete axios.defaults.headers.common['Authorization'];
+    delete api.defaults.headers.common['Authorization'];
     setCurrentUser(null);
   };
 
