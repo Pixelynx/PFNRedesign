@@ -2,14 +2,21 @@
 
 ## [Unreleased]
 
-## [xx-xx-xx]
+## [2025-09-05]
 ### Fixed
 - Resolved issue with Maven failing to detect `mainClass` by moving `pom.xml` from `/src` to project root of server directory.
 - Fixed PostgreSQL authentication error due to password encryption mismatch:
   - Updated DB user password to use `SCRAM-SHA-256` instead of `MD5` to match `pg_hba.conf` authentication method.
 - Recreated missing `pfn_db` database after password update invalidated original DB reference.
+- Fixed JWT signing key size issue for HS512 algorithm by implementing proper secure key generation
+- Resolved CORS configuration issues preventing successful registration and login
+- Fixed authorization header management in API calls
+- Improved token storage and cleanup in AuthContext
+- Enhanced registration endpoint security configuration
+- Fixed login flow with proper error handling
+- Resolved API URL configuration in frontend
 
-## [xx-xx-xx]
+## [[2025-28-05] - [2025-27-04]]
 ### Added
 - User registration and authentication system with JWT token-based auth
 - Login form component with validation and error handling
