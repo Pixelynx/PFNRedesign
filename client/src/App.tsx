@@ -4,7 +4,7 @@ import LoginForm from './components/Login/LoginForm';
 import RegisterForm from './components/Registration/RegisterForm';
 import { AuthProvider, useAuth } from './components/Context/AuthContext/AuthContext';
 import './App.css';
-import SideNav from './components/Layouts/SideNav';
+import SideNav from './layouts/SideNav';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
