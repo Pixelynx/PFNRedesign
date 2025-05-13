@@ -61,8 +61,12 @@ class UserServiceTest {
     void registerUser_Success() {
         // Arrange
         RegistrationRequest request = new RegistrationRequest("test@example.com", "password", "John", "Doe");
-        User savedUser = new User("test@example.com", "encodedPassword", "John", "Doe");
-        savedUser.setId(1L);
+        User savedUser = new User();
+        savedUser.setUserId(1L);
+        savedUser.setEmail("test@example.com");
+        savedUser.setPasswordHash("encodedPassword");
+        savedUser.setFirstName("John");
+        savedUser.setLastName("Doe");
 
         when(userRepository.existsByEmail(request.getEmail())).thenReturn(false);
         when(passwordEncoder.encode(request.getPassword())).thenReturn("encodedPassword");
@@ -99,8 +103,12 @@ class UserServiceTest {
     void authenticateUser_Success() {
         // Arrange
         LoginRequest request = new LoginRequest("test@example.com", "password");
-        User user = new User("test@example.com", "encodedPassword", "John", "Doe");
-        user.setId(1L);
+        User user = new User();
+        user.setUserId(1L);
+        user.setEmail("test@example.com");
+        user.setPasswordHash("encodedPassword");
+        user.setFirstName("John");
+        user.setLastName("Doe");
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(userDetails);
