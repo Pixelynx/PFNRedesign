@@ -1,8 +1,11 @@
-package com.server.ecommerce.controller;
+package com.pfnredesign.ecommerce.controller;
 
-import com.server.ecommerce.model.User;
-import com.server.ecommerce.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pfnredesign.ecommerce.model.User;
+import com.pfnredesign.ecommerce.service.UserService;
+
+import jakarta.validation.Valid;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +16,6 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -31,7 +33,8 @@ public class UserController {
     }
     
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public User createUser(@Valid @RequestBody User user) {
         return userService.saveUser(user);
     }
     
