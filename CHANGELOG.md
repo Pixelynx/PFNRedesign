@@ -2,6 +2,21 @@
 
 ## [Unreleased]
 
+## [2025-13-05]
+### Changed
+- Refactored Spring Boot controllers to follow modern best practices:
+  - Removed redundant @Autowired annotations from constructors
+  - Added @ResponseStatus(HttpStatus.CREATED) to POST endpoints
+  - Added necessary imports for HttpStatus
+- Improved User model with Lombok @Data annotation for automatic generation of:
+  - Getters/setters
+  - equals/hashCode methods
+  - toString method
+- Updated test classes to align with implementation changes:
+  - Updated UserTest to work with new model structure
+  - Updated UserServiceTest to use proper field names and methods
+  - [TODO] Update database schema to reflect password field rename to passwordHash
+
 ## [2025-09-05]
 ### Fixed
 - Resolved issue with Maven failing to detect `mainClass` by moving `pom.xml` from `/src` to project root of server directory.
