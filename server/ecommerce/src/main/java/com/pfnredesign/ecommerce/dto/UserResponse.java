@@ -21,12 +21,12 @@ public class UserResponse {
 
     // Factory method to create UserResponse from User entity
     public static UserResponse fromUser(User user) {
-        return new UserResponse(
-            user.getId(),
-            user.getEmail(),
-            user.getFirstName(),
-            user.getLastName()
-        );
+        UserResponse response = new UserResponse();
+        response.setId(user.getUserId());
+        response.setEmail(user.getEmail());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        return response;
     }
 
     public Long getId() {
