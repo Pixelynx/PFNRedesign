@@ -2,6 +2,21 @@
 
 ## [Unreleased]
 
+## [2025-14-05]
+### Added
+- API versioning for REST controllers (changed base paths from "/api/*" to "/api/v0/*")
+- Added appropriate @Tag annotations to all controllers
+- Added @Operation annotations for all controller methods
+- Added @ApiResponses annotations for methods returning ResponseEntity
+- PATCH endpoint support across all controllers:
+  - Added @PatchMapping("/{id}") endpoints that accept Map<String, Object> for partial updates
+  - Implemented service-layer methods for handling partial resource updates
+  - Added consistent error handling for partial updates
+- Added springdoc-openapi-starter-webmvc-ui dependency for API documentation
+
+### Changed
+- Updated frontend API client to use new versioned endpoints
+
 ## [2025-13-05]
 ### Changed
 - Refactored Spring Boot controllers to follow modern best practices:
