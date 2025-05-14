@@ -5,16 +5,20 @@ import com.pfnredesign.ecommerce.service.UserService;
 
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,10 +32,27 @@ public class UserController {
     }
     
     @GetMapping
-    @Operation(summary = "Get all users", description = "Returns a list of all users")
+    @Operation(summary = "Get all users", description = "Returns a paginated list of users with sorting options")
     @ApiResponse(responseCode = "200", description = "Users retrieved successfully")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public Page<User> getAllUsers(
+            @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Number of items per page") @RequestParam(defaultValue = "10") int size,
+            @Parameter(description = "Sorting criteria in the format: property(,asc|desc).") 
+            @RequestParam(defaultValue = "userId,asc") String[] sort) {
+        
+        // Create sorted object from sort parameters
+        Sort.Direction direction = Sort.Direction.ASC;
+        String property = "userId";
+        
+        if (sort.length > 0) {
+            property = sort[0];
+            if (sort.length > 1 && sort[1].equalsIgnoreCase("desc")) {
+                direction = Sort.Direction.DESC;
+            }
+        }
+        
+        Pageable pageable = PageRequest.of(page, size, direction, property);
+        return userService.getAllUsers(pageable);
     }
     
     @GetMapping("/{id}")
