@@ -7,6 +7,7 @@ import com.pfnredesign.ecommerce.dto.UserResponse;
 import com.pfnredesign.ecommerce.model.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
@@ -20,6 +21,8 @@ public interface UserService {
     Optional<User> getUserById(Long id);
 
     User saveUser(User user);
+    
+    User updateUser(Long id, Map<String, Object> fields);
 
     void deleteUser(Long id);
     
