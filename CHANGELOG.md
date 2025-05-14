@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Pagination and sorting support for collection endpoints:
+  - Updated GET /api/v0/users to return Page<User> instead of List<User>
+  - Added request parameters for page, size, and sort with sensible defaults
+  - Added Pageable parameter to service methods
+  - Implemented proper service methods to support pagination and sorting
 
 ## [2025-14-05]
 ### Added
@@ -70,4 +76,4 @@
 ### Security
 - Implemented secure JWT authentication
 - Password encryption with BCrypt
-- Input validation on both client and server sides 
+- Input validation on both client and server sides
