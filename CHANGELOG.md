@@ -19,6 +19,11 @@
   - Implemented service-layer methods for handling partial resource updates
   - Added consistent error handling for partial updates
 - Added springdoc-openapi-starter-webmvc-ui dependency for API documentation
+- Pagination and sorting support for collection endpoints:
+  - Updated GET /api/v0/users to return Page<User> instead of List<User>
+  - Added request parameters for page, size, and sort with sensible defaults
+  - Added Pageable parameter to service methods
+  - Implemented proper service methods to support pagination and sorting 
 
 ### Changed
 - Updated frontend API client to use new versioned endpoints
