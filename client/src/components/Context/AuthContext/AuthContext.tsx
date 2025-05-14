@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElemen
       setLoading(true);
       setError('');
       
-      const response = await api.post<UserResponse>('/api/auth/register', {
+      const response = await api.post<UserResponse>('/api/v0/auth/register', {
         email,
         password,
         firstName,
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElemen
       setLoading(true);
       setError('');
       
-      const response = await api.post<AuthResponse>('/api/auth/login', {
+      const response = await api.post<AuthResponse>('/api/v0/auth/login', {
         email,
         password
       });
