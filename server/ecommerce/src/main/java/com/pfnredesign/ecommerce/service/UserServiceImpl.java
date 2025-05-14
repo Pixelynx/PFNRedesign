@@ -9,6 +9,8 @@ import com.pfnredesign.ecommerce.exception.UserAlreadyExistsException;
 import com.pfnredesign.ecommerce.model.User;
 import com.pfnredesign.ecommerce.repository.UserRepository;
 import com.pfnredesign.ecommerce.security.JwtTokenUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -101,6 +103,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+    
+    @Override
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     @Override
