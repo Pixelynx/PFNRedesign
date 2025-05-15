@@ -2,6 +2,27 @@
 
 ## [Unreleased]
 
+## [2025-15-05]
+### Added
+- Implemented HATEOAS:
+  - Added Spring HATEOAS dependency
+  - Updated all REST controllers to return EntityModel or PagedModel
+  - Added hypermedia links for self-references and related resources
+  - Enhanced resource navigation through discoverable links
+  - Updated API documentation to reflect HATEOAS implementation
+- Enhanced global exception handling:
+  - Implemented standardized ApiError response format with timestamp, status, and message
+  - Added specialized handlers for common exceptions (ResourceNotFound, BadRequest, etc.)
+  - Created custom exception classes for different error scenarios
+  - Improved validation error reporting with field-specific messages
+  - Added request path information to error responses
+- Enhanced global exception handling:
+  - Implemented standardized ApiError response format with timestamp, status, and message
+  - Added specialized handlers for common exceptions (ResourceNotFound, BadRequest, etc.)
+  - Created custom exception classes for different error scenarios
+  - Improved validation error reporting with field-specific messages
+  - Added request path information to error responses
+
 ## [2025-14-05]
 ### Added
 - API versioning for REST controllers (changed base paths from "/api/*" to "/api/v0/*")
