@@ -1,12 +1,6 @@
 # Changelog
 
 ## [Unreleased]
-### Added
-- Pagination and sorting support for collection endpoints:
-  - Updated GET /api/v0/users to return Page<User> instead of List<User>
-  - Added request parameters for page, size, and sort with sensible defaults
-  - Added Pageable parameter to service methods
-  - Implemented proper service methods to support pagination and sorting
 
 ## [2025-14-05]
 ### Added
@@ -24,9 +18,19 @@
   - Added request parameters for page, size, and sort with sensible defaults
   - Added Pageable parameter to service methods
   - Implemented proper service methods to support pagination and sorting 
+- Implemented DTO pattern across the application:
+  - Created dedicated DTOs for all entities with proper validation annotations
+  - Added ModelMapper configuration for entity-DTO conversions
+  - Implemented mapper interfaces and their implementations for each entity type
+  - Added support for paginated results with DTOs
 
 ### Changed
 - Updated frontend API client to use new versioned endpoints
+- Refactored controllers to work with DTOs instead of directly using entities:
+  - Updated request body types to use appropriate request DTOs
+  - Changed response types to return DTOs instead of entities
+  - Enhanced documentation to reflect DTO usage
+- Updated existing DTOs to use Lombok for cleaner code
 
 ## [2025-13-05]
 ### Changed

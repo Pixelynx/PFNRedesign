@@ -1,5 +1,9 @@
 package com.pfnredesign.ecommerce.controller;
 
+import com.pfnredesign.ecommerce.dto.UserCreateDTO;
+import com.pfnredesign.ecommerce.dto.UserDTO;
+import com.pfnredesign.ecommerce.dto.UserUpdateDTO;
+import com.pfnredesign.ecommerce.mapper.UserMapper;
 import com.pfnredesign.ecommerce.model.User;
 import com.pfnredesign.ecommerce.service.UserService;
 
@@ -26,15 +30,17 @@ import java.util.Map;
 @Tag(name = "User Management", description = "API for managing users")
 public class UserController {
     private final UserService userService;
+    private final UserMapper userMapper;
     
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
     
     @GetMapping
     @Operation(summary = "Get all users", description = "Returns a paginated list of users with sorting options")
     @ApiResponse(responseCode = "200", description = "Users retrieved successfully")
-    public Page<User> getAllUsers(
+    public Page<UserDTO> getAllUsers(
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Number of items per page") @RequestParam(defaultValue = "10") int size,
             @Parameter(description = "Sorting criteria in the format: property(,asc|desc).") 
@@ -52,7 +58,8 @@ public class UserController {
         }
         
         Pageable pageable = PageRequest.of(page, size, direction, property);
-        return userService.getAllUsers(pageable);
+        Page<User> users = userService.getAllUsers(pageable);
+        return userMapper.toDTOPage(users);
     }
     
     @GetMapping("/{id}")
@@ -61,9 +68,9 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "User found"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
-                .map(ResponseEntity::ok)
+                .map(user -> ResponseEntity.ok(userMapper.toDTO(user)))
                 .orElse(ResponseEntity.notFound().build());
     }
     
@@ -71,8 +78,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new user", description = "Creates a new user and returns the created user")
     @ApiResponse(responseCode = "201", description = "User created successfully")
-    public User createUser(@Valid @RequestBody User user) {
-        return userService.saveUser(user);
+    public UserDTO createUser(@Valid @RequestBody UserCreateDTO userCreateDTO) {
+        User user = userMapper.toEntity(userCreateDTO);
+        User savedUser = userService.saveUser(user);
+        return userMapper.toDTO(savedUser);
     }
     
     @PutMapping("/{id}")
@@ -81,11 +90,12 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "User updated successfully"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<User> updateUser(@Valid @PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<UserDTO> updateUser(@Valid @PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
         return userService.getUserById(id)
                 .map(existingUser -> {
-                    user.setUserId(id);
-                    return ResponseEntity.ok(userService.saveUser(user));
+                    User updatedUser = userMapper.updateEntityFromDTO(userUpdateDTO, existingUser);
+                    User savedUser = userService.saveUser(updatedUser);
+                    return ResponseEntity.ok(userMapper.toDTO(savedUser));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -96,12 +106,12 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "User updated successfully"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<User> partialUpdateUser(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
+    public ResponseEntity<UserDTO> partialUpdateUser(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
         User updatedUser = userService.updateUser(id, fields);
         if (updatedUser == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(updatedUser);
+        return ResponseEntity.ok(userMapper.toDTO(updatedUser));
     }
     
     @DeleteMapping("/{id}")
