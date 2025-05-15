@@ -13,6 +13,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,22 +31,27 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.Map;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/api/v0/users")
 @Tag(name = "User Management", description = "API for managing users")
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
+    private final PagedResourcesAssembler<UserDTO> pagedResourcesAssembler;
     
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService, UserMapper userMapper, PagedResourcesAssembler<UserDTO> pagedResourcesAssembler) {
         this.userService = userService;
         this.userMapper = userMapper;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
     
     @GetMapping
     @Operation(summary = "Get all users", description = "Returns a paginated list of users with sorting options")
     @ApiResponse(responseCode = "200", description = "Users retrieved successfully")
-    public Page<UserDTO> getAllUsers(
+    public PagedModel<EntityModel<UserDTO>> getAllUsers(
             @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Number of items per page") @RequestParam(defaultValue = "10") int size,
             @Parameter(description = "Sorting criteria in the format: property(,asc|desc).") 
@@ -59,7 +70,12 @@ public class UserController {
         
         Pageable pageable = PageRequest.of(page, size, direction, property);
         Page<User> users = userService.getAllUsers(pageable);
-        return userMapper.toDTOPage(users);
+        Page<UserDTO> userDTOs = userMapper.toDTOPage(users);
+        
+        return pagedResourcesAssembler.toModel(
+                userDTOs,
+                userDTO -> toUserModel(userDTO)
+        );
     }
     
     @GetMapping("/{id}")
@@ -68,9 +84,13 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "User found"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<EntityModel<UserDTO>> getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
-                .map(user -> ResponseEntity.ok(userMapper.toDTO(user)))
+                .map(user -> {
+                    UserDTO userDTO = userMapper.toDTO(user);
+                    EntityModel<UserDTO> userModel = toUserModel(userDTO);
+                    return ResponseEntity.ok(userModel);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
     
@@ -78,10 +98,11 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new user", description = "Creates a new user and returns the created user")
     @ApiResponse(responseCode = "201", description = "User created successfully")
-    public UserDTO createUser(@Valid @RequestBody UserCreateDTO userCreateDTO) {
+    public EntityModel<UserDTO> createUser(@Valid @RequestBody UserCreateDTO userCreateDTO) {
         User user = userMapper.toEntity(userCreateDTO);
         User savedUser = userService.saveUser(user);
-        return userMapper.toDTO(savedUser);
+        UserDTO userDTO = userMapper.toDTO(savedUser);
+        return toUserModel(userDTO);
     }
     
     @PutMapping("/{id}")
@@ -90,12 +111,14 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "User updated successfully"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<UserDTO> updateUser(@Valid @PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
+    public ResponseEntity<EntityModel<UserDTO>> updateUser(@Valid @PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
         return userService.getUserById(id)
                 .map(existingUser -> {
                     User updatedUser = userMapper.updateEntityFromDTO(userUpdateDTO, existingUser);
                     User savedUser = userService.saveUser(updatedUser);
-                    return ResponseEntity.ok(userMapper.toDTO(savedUser));
+                    UserDTO userDTO = userMapper.toDTO(savedUser);
+                    EntityModel<UserDTO> userModel = toUserModel(userDTO);
+                    return ResponseEntity.ok(userModel);
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -106,12 +129,14 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "User updated successfully"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<UserDTO> partialUpdateUser(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
+    public ResponseEntity<EntityModel<UserDTO>> partialUpdateUser(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
         User updatedUser = userService.updateUser(id, fields);
         if (updatedUser == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userMapper.toDTO(updatedUser));
+        UserDTO userDTO = userMapper.toDTO(updatedUser);
+        EntityModel<UserDTO> userModel = toUserModel(userDTO);
+        return ResponseEntity.ok(userModel);
     }
     
     @DeleteMapping("/{id}")
@@ -127,5 +152,17 @@ public class UserController {
                     return ResponseEntity.ok().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+    
+    /**
+     * Converts a UserDTO to an EntityModel with HATEOAS links
+     */
+    private EntityModel<UserDTO> toUserModel(UserDTO userDTO) {
+        Link selfLink = linkTo(methodOn(UserController.class).getUserById(userDTO.getUserId())).withSelfRel();
+        
+        Link usersLink = linkTo(methodOn(UserController.class).getAllUsers(0, 10, new String[]{"userId", "asc"}))
+                .withRel("users");
+        
+        return EntityModel.of(userDTO, selfLink, usersLink);
     }
 }

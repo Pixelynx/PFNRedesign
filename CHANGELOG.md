@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [2025-15-05]
+### Added
+- Implemented HATEOAS:
+  - Added Spring HATEOAS dependency
+  - Updated all REST controllers to return EntityModel or PagedModel
+  - Added hypermedia links for self-references and related resources
+  - Enhanced resource navigation through discoverable links
+  - Updated API documentation to reflect HATEOAS implementation
+
 ## [2025-14-05]
 ### Added
 - API versioning for REST controllers (changed base paths from "/api/*" to "/api/v0/*")
