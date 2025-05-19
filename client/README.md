@@ -1,6 +1,5 @@
-# Pink Friday Nails - User Registration System
-
-This project implements a user registration and authentication system for Pink Friday Nails salon, built with TypeScript for enhanced type safety and maintainability.
+# Pink Friday Nails
+...
 
 ## Features
 
