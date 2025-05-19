@@ -1,14 +1,16 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import { User, UserResponse, AuthResponse, ApiErrorResponse } from '../../../types';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { User } from '../../../types';
+import TokenStorage from '../../../services/tokenStorage';
+import { useLogin, useLogout, useRegister, useRefreshToken } from '../../../services/authService';
 
 interface AuthContextType {
   currentUser: User | null;
   loading: boolean;
   error: string;
-  register: (email: string, password: string, firstName: string, lastName: string) => Promise<UserResponse>;
+  register: (email: string, password: string, firstName: string, lastName: string) => Promise<User>;
   login: (email: string, password: string) => Promise<User>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -25,121 +27,82 @@ export const useAuth = (): AuthContextType => {
   return context;
 };
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
-
-// Create axios instance with default config
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
 export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElement => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
 
-  useEffect(() => {
-    // Clear any existing tokens and headers on initialization
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    delete api.defaults.headers.common['Authorization'];
-    
-    setLoading(false);
-  }, []);
+  const queryClient = useQueryClient();
+  const loginMutation = useLogin();
+  const registerMutation = useRegister();
+  const logoutMutation = useLogout();
+  const refreshTokenMutation = useRefreshToken();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userJson = localStorage.getItem('user');
-    
-    if (token && userJson) {
-      const user = JSON.parse(userJson) as User;
-      setCurrentUser(user);
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    }
-    
-    setLoading(false);
-  }, []);
+    const initializeAuth = async (): Promise<void> => {
+      try {
+        const user = TokenStorage.getUser();
+        const refreshToken = TokenStorage.getRefreshToken();
 
-  const register = async (email: string, password: string, firstName: string, lastName: string): Promise<UserResponse> => {
-    try {
-      setLoading(true);
-      setError('');
-      
-      const response = await api.post<UserResponse>('/api/v0/auth/register', {
-        email,
-        password,
-        firstName,
-        lastName
-      });
-      
-      return response.data;
-    } catch (err: any) {
-      const errorResponse = err.response?.data as ApiErrorResponse;
-      if (errorResponse?.error) {
-        setError(errorResponse.error);
-      } else if (errorResponse) {
-        const errorMessages = Object.values(errorResponse).join(', ');
-        setError(errorMessages as string);
-      } else {
-        setError('Registration failed. Please try again.');
+        if (user && refreshToken) {
+          // Verify token validity by attempting to refresh
+          await refreshTokenMutation.mutateAsync(refreshToken);
+          setCurrentUser(user);
+        }
+      } catch (err) {
+        TokenStorage.clearTokens();
+      } finally {
+        setLoading(false);
       }
+    };
+
+    initializeAuth();
+  }, []);
+
+  const register = async (email: string, password: string, firstName: string, lastName: string): Promise<User> => {
+    try {
+      setError('');
+      const response = await registerMutation.mutateAsync({ email, password, firstName, lastName });
+      return response.user;
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.error || 'Registration failed. Please try again.';
+      setError(errorMessage);
       throw err;
-    } finally {
-      setLoading(false);
     }
   };
 
   const login = async (email: string, password: string): Promise<User> => {
     try {
-      setLoading(true);
       setError('');
-      
-      const response = await api.post<AuthResponse>('/api/v0/auth/login', {
-        email,
-        password
-      });
-      
-      const { token, user } = response.data;
-      
-      // Store token and user in localStorage
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-      
+      const user = await loginMutation.mutateAsync({ email, password });
       setCurrentUser(user);
-      
-      // Set default auth header for future requests
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      
       return user;
     } catch (err: any) {
-      const errorResponse = err.response?.data as ApiErrorResponse;
-      if (errorResponse?.error) {
-        setError(errorResponse.error);
-      } else {
-        setError('Login failed. Please check your credentials and try again.');
-      }
+      const errorMessage = err.response?.data?.error || 'Login failed. Please check your credentials and try again.';
+      setError(errorMessage);
       throw err;
-    } finally {
-      setLoading(false);
     }
   };
 
-  const logout = (): void => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    delete api.defaults.headers.common['Authorization'];
-    setCurrentUser(null);
+  const logout = async (): Promise<void> => {
+    try {
+      await logoutMutation.mutateAsync();
+      setCurrentUser(null);
+      queryClient.clear(); // Clear all queries from cache
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.error || 'Logout failed. Please try again.';
+      setError(errorMessage);
+      throw err;
+    }
   };
 
   const value: AuthContextType = {
     currentUser,
-    loading,
-    error,
+    loading: loading || loginMutation.isPending || registerMutation.isPending || logoutMutation.isPending,
+    error: error || loginMutation.error?.message || registerMutation.error?.message || logoutMutation.error?.message || '',
     register,
     login,
-    logout
+    logout,
   };
 
   return (

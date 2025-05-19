@@ -4,19 +4,19 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
-  createdAt?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserResponse {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string;
+  message: string;
+  user: User;
 }
 
 export interface AuthResponse {
-  token: string;
-  user: UserResponse;
+  accessToken: string;
+  refreshToken: string;
+  user: User;
 }
 
 // Form-related types
@@ -47,8 +47,9 @@ export interface RegistrationFormErrors {
 
 // API Request/Response related types
 export interface ApiErrorResponse {
-  error?: string;
+  error: string;
   message?: string;
-  status?: number;
-  [key: string]: any;
+  statusCode?: number;
+  timestamp?: string;
+  path?: string;
 } 
