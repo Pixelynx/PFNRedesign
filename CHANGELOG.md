@@ -2,6 +2,27 @@
 
 ## [Unreleased]
 
+## [2025-19-05]
+### Added
+- Enhanced authentication system with React Query integration:
+  - Added secure token storage service with refresh token support
+  - Implemented axios interceptors for automatic token management
+  - Created React Query mutations for auth operations
+  - Added QueryClientProvider for global React Query configuration
+  - Implemented proper token refresh logic
+  - Enhanced error handling and type safety
+- Improved application architecture:
+  - Separated routes into dedicated file
+  - Created QueryProvider for global React Query configuration
+  - Enhanced type definitions for API responses
+  - Added proper TypeScript types for all auth-related operations
+
+### Changed
+- Refactored AuthContext to use React Query while maintaining Context pattern
+- Updated token storage to support refresh tokens
+- Enhanced error handling in authentication flows
+- Improved type safety across authentication system
+
 ## [2025-15-05]
 ### Added
 - Implemented HATEOAS:
