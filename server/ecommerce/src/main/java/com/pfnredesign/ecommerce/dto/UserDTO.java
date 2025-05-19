@@ -6,15 +6,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
-
+public class UserDTO {
+    private Long userId;
+    
     @NotBlank(message = "Email is required")
     @Email(message = "Email must be valid")
     private String email;
-
-    @NotBlank(message = "Password is required")
-    private String password;
+    
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 } 

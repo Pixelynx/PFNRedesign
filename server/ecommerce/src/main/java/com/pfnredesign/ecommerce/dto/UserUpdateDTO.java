@@ -1,7 +1,6 @@
 package com.pfnredesign.ecommerce.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,12 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
-
-    @NotBlank(message = "Email is required")
+public class UserUpdateDTO {
+    
     @Email(message = "Email must be valid")
     private String email;
-
-    @NotBlank(message = "Password is required")
-    private String password;
+    
+    private String firstName;
+    private String lastName;
+    private String phone;
 } 

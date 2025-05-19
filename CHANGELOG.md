@@ -2,6 +2,58 @@
 
 ## [Unreleased]
 
+## [2025-15-05]
+### Added
+- Implemented HATEOAS:
+  - Added Spring HATEOAS dependency
+  - Updated all REST controllers to return EntityModel or PagedModel
+  - Added hypermedia links for self-references and related resources
+  - Enhanced resource navigation through discoverable links
+  - Updated API documentation to reflect HATEOAS implementation
+- Enhanced global exception handling:
+  - Implemented standardized ApiError response format with timestamp, status, and message
+  - Added specialized handlers for common exceptions (ResourceNotFound, BadRequest, etc.)
+  - Created custom exception classes for different error scenarios
+  - Improved validation error reporting with field-specific messages
+  - Added request path information to error responses
+- Implemented comprehensive configuration classes:
+  - Created OpenApiConfig for Swagger documentation with security schemes
+  - Enhanced ModelMapperConfig with custom mappings and type converters
+  - Created HateoasConfig for hypermedia support
+  - Enhanced WebConfig with content negotiation and resource handling
+  - Added CacheConfig for application-level caching
+  - Updated application properties with OpenAPI and CORS configurations
+
+## [2025-14-05]
+### Added
+- API versioning for REST controllers (changed base paths from "/api/*" to "/api/v0/*")
+- Added appropriate @Tag annotations to all controllers
+- Added @Operation annotations for all controller methods
+- Added @ApiResponses annotations for methods returning ResponseEntity
+- PATCH endpoint support across all controllers:
+  - Added @PatchMapping("/{id}") endpoints that accept Map<String, Object> for partial updates
+  - Implemented service-layer methods for handling partial resource updates
+  - Added consistent error handling for partial updates
+- Added springdoc-openapi-starter-webmvc-ui dependency for API documentation
+- Pagination and sorting support for collection endpoints:
+  - Updated GET /api/v0/users to return Page<User> instead of List<User>
+  - Added request parameters for page, size, and sort with sensible defaults
+  - Added Pageable parameter to service methods
+  - Implemented proper service methods to support pagination and sorting 
+- Implemented DTO pattern across the application:
+  - Created dedicated DTOs for all entities with proper validation annotations
+  - Added ModelMapper configuration for entity-DTO conversions
+  - Implemented mapper interfaces and their implementations for each entity type
+  - Added support for paginated results with DTOs
+
+### Changed
+- Updated frontend API client to use new versioned endpoints
+- Refactored controllers to work with DTOs instead of directly using entities:
+  - Updated request body types to use appropriate request DTOs
+  - Changed response types to return DTOs instead of entities
+  - Enhanced documentation to reflect DTO usage
+- Updated existing DTOs to use Lombok for cleaner code
+
 ## [2025-13-05]
 ### Changed
 - Refactored Spring Boot controllers to follow modern best practices:
@@ -55,4 +107,4 @@
 ### Security
 - Implemented secure JWT authentication
 - Password encryption with BCrypt
-- Input validation on both client and server sides 
+- Input validation on both client and server sides
