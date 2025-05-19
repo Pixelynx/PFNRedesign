@@ -10,6 +10,12 @@
   - Added hypermedia links for self-references and related resources
   - Enhanced resource navigation through discoverable links
   - Updated API documentation to reflect HATEOAS implementation
+- Enhanced global exception handling:
+  - Implemented standardized ApiError response format with timestamp, status, and message
+  - Added specialized handlers for common exceptions (ResourceNotFound, BadRequest, etc.)
+  - Created custom exception classes for different error scenarios
+  - Improved validation error reporting with field-specific messages
+  - Added request path information to error responses
 
 ## [2025-14-05]
 ### Added
