@@ -5,6 +5,8 @@ import com.pfnredesign.ecommerce.dto.LoginRequest;
 import com.pfnredesign.ecommerce.dto.RegistrationRequest;
 import com.pfnredesign.ecommerce.dto.UserResponse;
 import com.pfnredesign.ecommerce.service.UserService;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/v0/auth")
@@ -34,9 +39,18 @@ public class AuthController {
         @ApiResponse(responseCode = "201", description = "User registered successfully"),
         @ApiResponse(responseCode = "409", description = "Account with email already exists")
     })
-    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
+    public ResponseEntity<EntityModel<UserResponse>> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
         UserResponse userResponse = userService.registerUser(registrationRequest);
-        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+        
+        Link selfLink = linkTo(methodOn(AuthController.class).registerUser(registrationRequest)).withSelfRel();
+        
+        Link loginLink = linkTo(methodOn(AuthController.class).loginUser(null)).withRel("login");
+        
+        Link userLink = linkTo(methodOn(UserController.class).getUserById(userResponse.getId())).withRel("user");
+        
+        EntityModel<UserResponse> userResponseModel = EntityModel.of(userResponse, selfLink, loginLink, userLink);
+        
+        return new ResponseEntity<>(userResponseModel, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -45,8 +59,15 @@ public class AuthController {
         @ApiResponse(responseCode = "200", description = "User authenticated successfully"),
         @ApiResponse(responseCode = "401", description = "Invalid credentials")
     })
-    public ResponseEntity<AuthResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<EntityModel<AuthResponse>> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
         AuthResponse authResponse = userService.authenticateUser(loginRequest);
-        return ResponseEntity.ok(authResponse);
+        
+        Link selfLink = linkTo(methodOn(AuthController.class).loginUser(loginRequest)).withSelfRel();
+        
+        Link userLink = linkTo(methodOn(UserController.class).getUserById(authResponse.getUser().getId())).withRel("user");
+        
+        EntityModel<AuthResponse> authResponseModel = EntityModel.of(authResponse, selfLink, userLink);
+        
+        return ResponseEntity.ok(authResponseModel);
     }
 } 
