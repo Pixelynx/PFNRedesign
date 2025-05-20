@@ -42,8 +42,23 @@ export const useRegister = (): UseMutationResult<UserResponse, ApiErrorResponse,
 export const useLogout = (): UseMutationResult<void, ApiErrorResponse, void> => {
   return useMutation({
     mutationFn: async (): Promise<void> => {
-      await apiClient.post('/api/v0/auth/logout');
+      const token = TokenStorage.getAccessToken();
+      
+      // Clear tokens before making the API call
       TokenStorage.clearTokens();
+      
+      // If we had a token, try to notify the server
+      if (token) {
+        try {
+          await apiClient.post('/api/v0/auth/logout', {}, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+        } catch (error) {
+          console.log('Logout API call failed; tokens were cleared locally.');
+        }
+      }
     },
   });
 };
