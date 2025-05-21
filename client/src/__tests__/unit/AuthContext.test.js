@@ -1,20 +1,18 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { AuthProvider, useAuth } from '../components/Context/AuthContext/AuthContext';
-import TokenStorage from '../services/tokenStorage';
+import { AuthProvider, useAuth } from '../../components/Context/AuthContext/AuthContext';
+import TokenStorage from '../../services/tokenStorage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useLogin, useLogout, useRegister, useRefreshToken } from '../services/authService';
+import { useLogin, useLogout, useRegister, useRefreshToken } from '../../services/authService';
 
-// Mock the hooks from authService
-jest.mock('../services/authService', () => ({
+jest.mock('../../services/authService', () => ({
   useLogin: jest.fn(),
   useLogout: jest.fn(),
   useRegister: jest.fn(),
   useRefreshToken: jest.fn(),
 }));
 
-// Mock TokenStorage
-jest.mock('../services/tokenStorage', () => ({
+jest.mock('../../services/tokenStorage', () => ({
   getToken: jest.fn(),
   getUser: jest.fn(),
   getRefreshToken: jest.fn(),
@@ -55,7 +53,6 @@ describe('AuthContext', () => {
       },
     });
     
-    // Mock queryClient.clear method with a jest mock
     queryClient.clear = jest.fn();
 
     // Set up mock mutation functions
@@ -89,7 +86,6 @@ describe('AuthContext', () => {
     useLogout.mockReturnValue(mockLogoutMutation);
     useRefreshToken.mockReturnValue(mockRefreshTokenMutation);
 
-    // Clear all mocks
     jest.clearAllMocks();
   });
 
@@ -102,7 +98,6 @@ describe('AuthContext', () => {
   };
 
   test('initializes with no user when no token in TokenStorage', async () => {
-    // Mock TokenStorage.getUser to return null
     TokenStorage.getUser.mockReturnValue(null);
     TokenStorage.getRefreshToken.mockReturnValue(null);
     
@@ -122,10 +117,8 @@ describe('AuthContext', () => {
   });
   
   test('initializes with user from TokenStorage', async () => {
-    // Mock user data
     const mockUser = { id: 1, email: 'test@example.com', firstName: 'John', lastName: 'Doe' };
     
-    // Mock TokenStorage functions
     TokenStorage.getUser.mockReturnValue(mockUser);
     TokenStorage.getRefreshToken.mockReturnValue('mock-refresh-token');
     mockRefreshTokenMutation.mutateAsync.mockResolvedValue({ token: 'new-token', refreshToken: 'new-refresh-token' });
@@ -165,10 +158,8 @@ describe('AuthContext', () => {
       expect(screen.getByTestId('loading').textContent).toBe('false');
     });
     
-    // Click login button
     fireEvent.click(screen.getByTestId('login-button'));
     
-    // After login, user should be set
     await waitFor(() => {
       expect(screen.getByTestId('user').textContent).toContain('test@example.com');
     });
@@ -192,15 +183,12 @@ describe('AuthContext', () => {
       </AuthProvider>
     );
     
-    // Wait for initial loading to finish and user to be loaded
     await waitFor(() => {
       expect(screen.getByTestId('user').textContent).toContain('test@example.com');
     });
     
-    // Click logout button
     fireEvent.click(screen.getByTestId('logout-button'));
     
-    // After logout, user should be cleared
     await waitFor(() => {
       expect(screen.getByTestId('user').textContent).toBe('No user');
     });
@@ -231,10 +219,8 @@ describe('AuthContext', () => {
       expect(screen.getByTestId('loading').textContent).toBe('false');
     });
     
-    // Click login button - the error will be caught in the TestComponent
     fireEvent.click(screen.getByTestId('login-button'));
     
-    // After failed login, error should be set in the AuthContext
     await waitFor(() => {
       expect(screen.getByTestId('error').textContent).toBe(errorMessage);
     });
@@ -259,7 +245,6 @@ describe('AuthContext', () => {
       expect(screen.getByTestId('loading').textContent).toBe('false');
     });
     
-    // Click register button
     fireEvent.click(screen.getByTestId('register-button'));
     
     // Check if register mutation was called with correct data
