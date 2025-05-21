@@ -65,6 +65,20 @@ cd client
 npm test
 ```
 
+## Testing Architecture
+
+The project uses a modern testing approach with the following structure:
+
+### Test Organization
+- `__tests__/unit/`: Unit tests for individual components
+- `__tests__/integration/`: Integration tests for component interactions
+
+### Testing Technologies
+- Jest as the test runner
+- React Testing Library for component testing
+- @testing-library/user-event v14 for simulating user interactions
+- Mock Service Worker for API mocking
+
 ## Project Structure
 
 ### Backend
