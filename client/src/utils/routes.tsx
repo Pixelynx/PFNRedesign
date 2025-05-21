@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import LoginForm from './components/Login/LoginForm';
-import RegisterForm from './components/Registration/RegisterForm';
-import { useAuth } from './components/Context/AuthContext/AuthContext';
-import SideNav from './layouts/SideNav';
+import LoginForm from '../components/Login/LoginForm';
+import RegisterForm from '../components/Registration/RegisterForm';
+import { useAuth } from '../components/Context/AuthContext/AuthContext';
+import SideNav from '../layouts/SideNav';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
