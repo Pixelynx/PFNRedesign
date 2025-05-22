@@ -19,14 +19,6 @@
     - Added fetch mock configuration
     - Set up axios mock with comprehensive interceptors
     - Configured localStorage mock for TokenStorage testing
-- Updated TypeScript implementation in SideNav component:
-  - Added strict typing for all component props and state
-  - Created dedicated interfaces for navigation styles and data structures
-  - Implemented type-safe event handlers and function signatures
-  - Added proper return type annotations for all functions
-  - Refactored navigation sections into typed constants
-  - Enhanced component organization with typed helper functions
-  - Improved maintainability with proper TypeScript patterns
 
 ### Changed
 - Modernized test infrastructure for React components:
@@ -40,12 +32,21 @@
   - Enhanced test organization with more consistent patterns
   - Improved error handling in tests
   - Added consistent test reset patterns to prevent test pollution
-- Updated frontend API client to use new versioned endpoints
-- Refactored controllers to work with DTOs instead of directly using entities:
-  - Updated request body types to use appropriate request DTOs
-  - Changed response types to return DTOs instead of entities
-  - Enhanced documentation to reflect DTO usage
-- Updated existing DTOs to use Lombok for cleaner code
+- Updated TypeScript implementation in SideNav component:
+  - Added strict typing for all component props and state
+  - Created dedicated interfaces for navigation styles and data structures
+  - Implemented type-safe event handlers and function signatures
+  - Added proper return type annotations for all functions
+  - Refactored navigation sections into typed constants
+  - Enhanced component organization with typed helper functions
+  - Improved maintainability with proper TypeScript patterns
+
+### Fixed
+- Resolved test failures with form validation tests
+- Fixed issues with async state updates in component tests
+- Corrected event timing issues in testing user interactions
+- Fixed timeout issues in tests by adding proper timer handling
+- Resolved mock implementation issues with authentication context
 
 ## [2025-19-05]
 ### Added
@@ -61,12 +62,40 @@
   - Created QueryProvider for global React Query configuration
   - Enhanced type definitions for API responses
   - Added proper TypeScript types for all auth-related operations
+- Modernized form handling:
+  - Integrated React Hook Form for form state management
+  - Added Zod schema validation for form data
+  - Enhanced form accessibility with ARIA attributes
+  - Improved error handling and validation feedback
+  - Added proper TypeScript types for form data and validation
 
 ### Changed
 - Refactored AuthContext to use React Query while maintaining Context pattern
 - Updated token storage to support refresh tokens
 - Enhanced error handling in authentication flows
 - Improved type safety across authentication system
+- Modernized LoginForm component:
+  - Replaced manual form state with React Hook Form
+  - Implemented Zod schema validation
+  - Added proper ARIA attributes for accessibility
+  - Enhanced error handling and validation feedback
+  - Maintained Context-based architecture integration
+- Modernized RegisterForm component:
+  - Replaced manual form state with React Hook Form
+  - Implemented Zod schema validation with password matching
+  - Enhanced accessibility with proper ARIA attributes
+  - Improved form layout and structure
+  - Maintained visual consistency with original design
+  - Preserved success message functionality for better UX
+- Improved component reusability:
+  - Refactored forms to use shared FormInput component
+  - Standardized form input styling across the application
+  - Enhanced FormInput component with React Hook Form compatibility
+  - Improved HTML semantics and accessibility in form components
+- Fixed logout functionality:
+  - Enhanced token handling during logout process
+  - Improved error handling for logout API failures
+  - Ensured consistent user experience during logout
 
 ## [2025-15-05]
 ### Added
