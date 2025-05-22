@@ -1,0 +1,59 @@
+/* SideNav icons */
+.nav-icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  .nav-overlay-mobile {
+    display: block !important;
+  }
+}
+
+/* Icon only styles */
+@media (min-width: 769px) {
+  .nav-overlay-mobile {
+    display: none !important;
+  }
+}
+
+/* Hover effects for nav links */
+a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Custom scrollbar for SideNav */
+#sidenav::-webkit-scrollbar {
+  width: 6px;
+}
+
+#sidenav::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#sidenav::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+#sidenav::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Animation for hamburger menu */
+.hamburger-button {
+  transition: all 0.3s ease;
+}
+
+.hamburger-button:hover {
+  transform: scale(1.05);
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  #sidenav {
+    width: 100% !important;
+    max-width: 300px;
+  }
+} 
