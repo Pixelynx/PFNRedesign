@@ -10,6 +10,9 @@
 - Responsive design following the Pink Friday Nails branding
 - Complete TypeScript implementation with strict typing
 
+## Feature Roadmaps
+[AR Try-On Feature Roadmap](./docs/ARTryOnRoadmap.md)
+
 ## Technology Stack
 
 ### Frontend
