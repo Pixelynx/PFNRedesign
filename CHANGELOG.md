@@ -184,7 +184,7 @@
 - Login form component with validation and error handling
 - Registration form component with validation and error handling
 - Protected routes for authenticated users
-- Responsive UI design with Pink Friday Nails branding
+- Responsive UI design with PFN branding
 - TypeScript integration across all components
 - Type-safe implementation with strict typing throughout the application
 - Form validation with TypeScript interfaces

@@ -1,4 +1,4 @@
-# Pink Friday Nails
+# PFN
 ...
 
 ## Features
@@ -7,7 +7,7 @@
 - User login with JWT authentication
 - Form validation for both client and server side
 - Protected routes requiring authentication
-- Responsive design following the Pink Friday Nails branding
+- Responsive design following the PFN branding
 - Complete TypeScript implementation with strict typing
 
 ## Feature Roadmaps
