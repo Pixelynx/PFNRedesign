@@ -33,8 +33,10 @@ The PFN Redesign project is a comprehensive e-commerce platform rebuild that int
 
 ## Market Opportunity
 
-**Target Market**: Fashion-forward consumers aged 18-40, representing the primary demographic for the false nail market, with press-on nails particularly popular among Gen Z and Millennials[2](https://www.retailbrew.com/stories/2023/06/27/gen-z-consumers-boost-beauty) [3](https://www.grandviewresearch.com/industry-analysis/nail-salon-market-report)
-**Market Size**: $1.08B projected press-on nail market by 2030 with 6.5% annual growth [1](https://www.grandviewresearch.com/industry-analysis/press-on-nails-market-report)
+**Target Market**: Fashion-forward consumers aged 18-40, representing the primary demographic for the false nail market, with press-on nails particularly popular among Gen Z and Millennials[1](https://www.retailbrew.com/stories/2023/06/27/gen-z-consumers-boost-beauty) [2](https://www.grandviewresearch.com/industry-analysis/nail-salon-market-report)
+
+**Market Size**: $1.08B projected press-on nail market by 2030 with 6.5% annual growth [3](https://www.grandviewresearch.com/industry-analysis/press-on-nails-market-report)
+
 **Competitive Advantage**: No existing e-commerce platforms offer AR try-on for press-on nails
 
 ## Development Methodology
