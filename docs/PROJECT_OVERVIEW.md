@@ -4,6 +4,22 @@
 
 The PFN Redesign project is a comprehensive e-commerce platform rebuild that introduces **Augmented Reality (AR) nail try-on technology** to revolutionize how customers shop for press-on nails online. This project demonstrates full-stack development capabilities, innovative AR implementation, and strategic product thinking.
 
+## Documentation Navigation
+
+### **Core Project Documentation**
+- **[Project Overview](./PROJECT_OVERVIEW.md)** ← *Welcome to it*
+- **[Frontend Development Roadmap](./FrontendRoadmap.md)** - Comprehensive development phases and timeline
+- **[Component Structure](./structure.md)** - React component hierarchy and organization
+
+### **Technical Documentation**
+- **[Technical Architecture](./technical/TECHNICAL_ARCHITECTURE.md)** - Full-stack system design, database schema, and deployment
+- **[AR Implementation Strategy](./ar-feature/AR_IMPLEMENTATION_STRATEGY.md)** - 3-phase AR development approach and technical deep-dive
+- **[AR Try-On Roadmap](./ARTryOnRoadmap.md)** - AR feature development phases and infrastructure planning
+
+### **Design & User Experience**
+- **[User Flow Documentation](./UserFlows/)** - Complete user journey mapping
+- **[Wireframes](./Wireframes/)** - UI/UX design mockups
+
 ## Project Vision
 
 **Problem Statement**: Traditional e-commerce for press-on nails relies on static product images, leading to uncertainty about fit, style, and color matching. This results in customer hesitation and potentially higher return rates.
