@@ -1,4 +1,4 @@
-# Pink Friday Nails Redesign - React Component Hierarchy
+# PFN Redesign - React Component Hierarchy
 
 App/
 ├─ Layout/

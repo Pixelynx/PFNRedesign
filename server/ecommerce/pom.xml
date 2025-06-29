@@ -11,7 +11,7 @@
 	<artifactId>ecommerce</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pfn-redesign-ecommerce</name>
-	<description>Redesign for the E-commerce platform Pink Friday Nails</description>
+	<description>Redesign for the E-commerce platform PFN</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -32,6 +32,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.plugin</groupId>
+			<artifactId>spring-plugin-core</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -128,6 +134,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.atteo</groupId>
+			<artifactId>evo-inflector</artifactId>
+			<version>1.3</version>
 		</dependency>
 
 	</dependencies>

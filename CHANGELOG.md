@@ -2,6 +2,101 @@
 
 ## [Unreleased]
 
+## [2025-20-05]
+### Added
+- Created and updated critical Jest/Babel configuration files:
+  - babel.config.js: Enhanced ES module handling with proper presets and plugins
+    - Added support for TypeScript, React 17+ JSX transform
+    - Configured proper module transformation for ES modules
+    - Added essential plugins for modern JavaScript features
+  - jest.config.js: Comprehensive Jest setup for React Testing
+    - Configured proper module name mapping for non-JS imports
+    - Added ES module support for modern packages
+    - Set up transform patterns for TypeScript and JSX
+    - Configured proper handling of ES modules in node_modules
+  - .babelrc: Added source type configuration for consistent module handling
+  - setupJest.js: Implemented global test environment setup
+    - Added fetch mock configuration
+    - Set up axios mock with comprehensive interceptors
+    - Configured localStorage mock for TokenStorage testing
+
+### Changed
+- Modernized test infrastructure for React components:
+  - Replaced deprecated testing patterns with modern React Testing Library practices
+  - Implemented proper mocking of React Context in tests
+  - Enhanced testing for asynchronous operations with waitFor and findByText
+  - Fixed issues with Jest timers and promises in tests
+  - Updated tests to use @testing-library/user-event v14 API
+  - Improved test selector specificity for greater reliability
+  - Added proper mocking of React Query mutations
+  - Enhanced test organization with more consistent patterns
+  - Improved error handling in tests
+  - Added consistent test reset patterns to prevent test pollution
+- Updated TypeScript implementation in SideNav component:
+  - Added strict typing for all component props and state
+  - Created dedicated interfaces for navigation styles and data structures
+  - Implemented type-safe event handlers and function signatures
+  - Added proper return type annotations for all functions
+  - Refactored navigation sections into typed constants
+  - Enhanced component organization with typed helper functions
+  - Improved maintainability with proper TypeScript patterns
+
+### Fixed
+- Resolved test failures with form validation tests
+- Fixed issues with async state updates in component tests
+- Corrected event timing issues in testing user interactions
+- Fixed timeout issues in tests by adding proper timer handling
+- Resolved mock implementation issues with authentication context
+
+## [2025-19-05]
+### Added
+- Enhanced authentication system with React Query integration:
+  - Added secure token storage service with refresh token support
+  - Implemented axios interceptors for automatic token management
+  - Created React Query mutations for auth operations
+  - Added QueryClientProvider for global React Query configuration
+  - Implemented proper token refresh logic
+  - Enhanced error handling and type safety
+- Improved application architecture:
+  - Separated routes into dedicated file
+  - Created QueryProvider for global React Query configuration
+  - Enhanced type definitions for API responses
+  - Added proper TypeScript types for all auth-related operations
+- Modernized form handling:
+  - Integrated React Hook Form for form state management
+  - Added Zod schema validation for form data
+  - Enhanced form accessibility with ARIA attributes
+  - Improved error handling and validation feedback
+  - Added proper TypeScript types for form data and validation
+
+### Changed
+- Refactored AuthContext to use React Query while maintaining Context pattern
+- Updated token storage to support refresh tokens
+- Enhanced error handling in authentication flows
+- Improved type safety across authentication system
+- Modernized LoginForm component:
+  - Replaced manual form state with React Hook Form
+  - Implemented Zod schema validation
+  - Added proper ARIA attributes for accessibility
+  - Enhanced error handling and validation feedback
+  - Maintained Context-based architecture integration
+- Modernized RegisterForm component:
+  - Replaced manual form state with React Hook Form
+  - Implemented Zod schema validation with password matching
+  - Enhanced accessibility with proper ARIA attributes
+  - Improved form layout and structure
+  - Maintained visual consistency with original design
+  - Preserved success message functionality for better UX
+- Improved component reusability:
+  - Refactored forms to use shared FormInput component
+  - Standardized form input styling across the application
+  - Enhanced FormInput component with React Hook Form compatibility
+  - Improved HTML semantics and accessibility in form components
+- Fixed logout functionality:
+  - Enhanced token handling during logout process
+  - Improved error handling for logout API failures
+  - Ensured consistent user experience during logout
+
 ## [2025-15-05]
 ### Added
 - Implemented HATEOAS:
@@ -89,7 +184,7 @@
 - Login form component with validation and error handling
 - Registration form component with validation and error handling
 - Protected routes for authenticated users
-- Responsive UI design with Pink Friday Nails branding
+- Responsive UI design with PFN branding
 - TypeScript integration across all components
 - Type-safe implementation with strict typing throughout the application
 - Form validation with TypeScript interfaces

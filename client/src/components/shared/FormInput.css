@@ -3,6 +3,10 @@
   width: 100%;
 }
 
+.form-input.name-field {
+  margin-bottom: 0;
+}
+
 .form-label {
   display: block;
   margin-bottom: 8px;
@@ -17,13 +21,13 @@
 
 .input-field {
   width: 100%;
-  padding: 12px;
+  padding: 12px 16px;
   border: 2px solid #FF69B4;
   border-radius: 8px;
   font-size: 16px;
   color: #FF69B4;
   background-color: #FFFFFF;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .input-field:focus {
