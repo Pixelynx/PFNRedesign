@@ -16,7 +16,7 @@ The PFN Redesign project is a comprehensive e-commerce platform rebuild that int
 - **[AR Implementation Strategy](./ar-feature/AR_IMPLEMENTATION_STRATEGY.md)** - 3-phase AR development approach and technical deep-dive
 - **[AR Try-On Roadmap](./ARTryOnRoadmap.md)** - AR feature development phases and infrastructure planning
 
-## **Research Documentation**
+### **Research Documentation**
 - **[Nail Market Analysis](https://1drv.ms/x/c/5a86910e20dbeea0/EVpk3P8dtEVFssnsu6GCypkBpTe8Yt4hNj_D5MTw0NELTA)** - Income-segmented analysis of U.S. nail consumer spending, salon vs. press-on market share, and price sensitivity trends
 
 ### **Design & User Experience**
