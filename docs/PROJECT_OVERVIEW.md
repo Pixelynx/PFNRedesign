@@ -16,6 +16,9 @@ The PFN Redesign project is a comprehensive e-commerce platform rebuild that int
 - **[AR Implementation Strategy](./ar-feature/AR_IMPLEMENTATION_STRATEGY.md)** - 3-phase AR development approach and technical deep-dive
 - **[AR Try-On Roadmap](./ARTryOnRoadmap.md)** - AR feature development phases and infrastructure planning
 
+### **Research Documentation**
+- **[Nail Market Analysis](https://1drv.ms/x/c/5a86910e20dbeea0/EVpk3P8dtEVFssnsu6GCypkBpTe8Yt4hNj_D5MTw0NELTA)** - Income-segmented analysis of U.S. nail consumer spending, salon vs. press-on market share, and price sensitivity trends
+
 ### **Design & User Experience**
 - **[User Flow Documentation](./UserFlows/)** - Complete user journey mapping
 - **[Wireframes](./Wireframes/)** - UI/UX design mockups
@@ -49,11 +52,11 @@ The PFN Redesign project is a comprehensive e-commerce platform rebuild that int
 
 ## Market Opportunity
 
-**Target Market**: Fashion-forward consumers aged 18-40, representing the primary demographic for the false nail market, with press-on nails particularly popular among Gen Z and Millennials[1](https://www.retailbrew.com/stories/2023/06/27/gen-z-consumers-boost-beauty) [2](https://www.grandviewresearch.com/industry-analysis/nail-salon-market-report)
+**Target Market**: Women aged 18–40; especially Gen Z and Millennials, in both middle and high-income brackets. These groups spend more on nail services and seek convenient, trend-forward, and personalized options. Press-on nails are most popular among style-driven, price, and time-conscious groups, making AR try-on tools highly attractive to them.
 
 **Market Size**: $1.08B projected press-on nail market by 2030 with 6.5% annual growth [3](https://www.grandviewresearch.com/industry-analysis/press-on-nails-market-report)
 
-**Competitive Advantage**: No existing e-commerce platforms offer AR try-on for press-on nails
+**Competitive Advantage**: No current platform offers AR try-on for press-on nails, meeting the needs of shoppers who alternate between salon and DIY experiences.
 
 ## Development Methodology
 
