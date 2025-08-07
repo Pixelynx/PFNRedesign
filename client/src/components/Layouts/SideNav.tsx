@@ -166,7 +166,7 @@ const SideNav: React.FC = () => {
       
       {/* SideNav */}
       <div id="sidenav" style={sideNavStyle}>
-        <div style={navHeaderStyle}>Pink Friday Nails</div>
+        <div style={navHeaderStyle}>PFN</div>
         
         <Link to="/products" style={navLinkStyle} onClick={() => setIsOpen(false)}>All Products</Link>
         
